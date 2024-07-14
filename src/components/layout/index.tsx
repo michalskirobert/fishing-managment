@@ -2,7 +2,6 @@
 
 import { Box, createTheme, ThemeProvider } from "@mui/material";
 
-import { Footer } from "./footer";
 import Header from "./header";
 
 import { useAppSelector } from "@redux/store";
@@ -25,7 +24,6 @@ export const Theme = ({ children }: { children: React.ReactNode }) => {
       >
         <Header>{children}</Header>
       </Box>
-      <Footer />
     </ThemeProvider>
   );
 };
