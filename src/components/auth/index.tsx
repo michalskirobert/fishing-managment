@@ -34,7 +34,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return <RedirectPage />;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 export default AuthProvider;
