@@ -8,8 +8,8 @@ import { useMapService } from "./service";
 
 import "leaflet/dist/leaflet.css";
 
-// import "leaflet-defaulticon-compatibility";
-// import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
 export interface CustomInputProps<T extends FieldValues> {
   control: Control<T>;
