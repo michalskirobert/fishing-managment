@@ -34,7 +34,7 @@ export const SpotForm: React.FC<SpotFormProps> = ({
       title={pageTitle}
       subtitle='Uzupełnił wszystkie wymagane pola, które są oznaczone "*"'
     >
-      <CustomLoadingBlocker blocking={blocking}>
+      <CustomLoadingBlocker isLoading={blocking}>
         <form onSubmit={handleSubmit(onSave)}>
           <Paper sx={{ p: 2 }}>
             <Card>
