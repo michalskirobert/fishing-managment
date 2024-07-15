@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useEffect, useMemo } from "react";
-import { useAppSelector } from "@redux/store";
+import { useAppDispatch, useAppSelector } from "@redux/store";
 import { useRouter, usePathname } from "next/navigation";
 import RedirectPage from "./pages/redirect-page";
+import { useTokenMutation } from "@src/api/service/auth";
+import { VerifyTokenPage } from "./pages/token-page";
+import { clearUser } from "@src/redux/reducers/auth";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -12,6 +15,10 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const userData = useAppSelector(({ user }) => user);
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  const [checkToken, { isLoading, isError }] = useTokenMutation();
 
   const currentPath = usePathname();
 
@@ -28,7 +35,28 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, [userData, excludedPaths, currentPath, router]);
 
+  useEffect(() => {
+    if (isError) {
+      dispatch(clearUser());
+
+      if (excludedPaths.includes(currentPath)) return;
+      router.push("/sign-out");
+
+      return;
+    }
+
+    if (userData.accessToken) {
+      const interval = setInterval(() => {
+        checkToken({ token: `${userData.accessToken}` });
+      }, 9000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isError, userData.accessToken, checkToken]);
+
   if (typeof window === undefined) return null;
+
+  if (isLoading && !userData.isLogin) return <VerifyTokenPage />;
 
   if (!userData.accessToken && !excludedPaths.includes(currentPath)) {
     return <RedirectPage />;

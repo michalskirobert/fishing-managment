@@ -22,7 +22,12 @@ export const MainMenuListItems: React.FC<{
   return (
     <>
       {group.map(({ title, icon, to }) => (
-        <ListItemButton key={title} selected={currentPath === to} href={to}>
+        <ListItemButton
+          key={title}
+          selected={currentPath === to}
+          href={to}
+          LinkComponent={Link}
+        >
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={title} />
         </ListItemButton>
