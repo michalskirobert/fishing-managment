@@ -19,6 +19,23 @@ const rawBaseQuery = fetchBaseQuery({
 export const getQueryString = <T>(queryParams?: Partial<T>) =>
   `${qs.stringify(queryParams, { allowDots: true })}`;
 
+const handleTokenExpired = (
+  status:
+    | number
+    | "FETCH_ERROR"
+    | "PARSING_ERROR"
+    | "TIMEOUT_ERROR"
+    | "CUSTOM_ERROR"
+    | undefined
+) => {
+  console.log(window.location.pathname);
+  if (window.location.pathname === "/sign-in") return;
+  console.log("EXEC");
+  if (status === 401 || status === 403) {
+    window.location.href = "/sign-out";
+  }
+};
+
 export const baseQuery = () =>
   fetchBaseQuery({
     baseUrl: API_URL,
@@ -62,7 +79,11 @@ const dynamicBaseQuery: BaseQueryFn<
           headers,
         };
 
-  return rawBaseQuery(adjustedArgs, api, extraOptions);
+  const result = await rawBaseQuery(adjustedArgs, api, extraOptions);
+
+  handleTokenExpired(result.error?.status);
+
+  return result;
 };
 
 const authBaseQuery: BaseQueryFn<
@@ -78,7 +99,11 @@ const authBaseQuery: BaseQueryFn<
           url: `${API_URL}/${args.url}`,
         };
 
-  return rawBaseQuery(adjustedArgs, api, extraOptions);
+  const result = await rawBaseQuery(adjustedArgs, api, extraOptions);
+
+  handleTokenExpired(result.error?.status);
+
+  return result;
 };
 
 export const apiSlice = createApi({

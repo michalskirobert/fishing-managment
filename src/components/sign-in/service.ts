@@ -27,7 +27,7 @@ export const useSignInService = () => {
     signIn(restBody)
       .unwrap()
       .then((data) => {
-        dispatch(setUser(data));
+        dispatch(setUser({ ...data, isLogin: true }));
         router.push("/");
       });
   };

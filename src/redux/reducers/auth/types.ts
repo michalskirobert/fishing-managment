@@ -7,5 +7,5 @@ export type UserDataProps = {
   accountCreatedDate: string;
   lastVisitedDate: string;
   accessToken: string | null;
-  tokenExprTime: 0;
+  isLogin: boolean;
 };

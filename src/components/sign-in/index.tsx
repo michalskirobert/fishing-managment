@@ -14,6 +14,8 @@ import { DetailButton } from "@shared/detail-buttons";
 
 import { FormFields } from "@shared/form";
 
+import background from "@assets/images/backgrounds/sign-in-hero.jpg";
+
 export default function SignIn() {
   const { isSigning, onSubmit, methods } = useSignInService();
 
@@ -26,8 +28,8 @@ export default function SignIn() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: `url("https://pzw.slupsk.pl/wp-content/uploads/2018/05/logo-pzw.png")`,
-          backgroundSize: "contain",
+          backgroundImage: `url(${background.src})`,
+          backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "left",
         }}

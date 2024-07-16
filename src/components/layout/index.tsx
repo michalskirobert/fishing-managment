@@ -1,31 +1,33 @@
 "use client";
 
-import { Box, createTheme, ThemeProvider } from "@mui/material";
+import { Box, createTheme, Grid, ThemeProvider } from "@mui/material";
 
-import { Footer } from "./footer";
 import Header from "./header";
 
 import { useAppSelector } from "@redux/store";
+import { Container } from "reactstrap";
 
 export const Theme = ({ children }: { children: React.ReactNode }) => {
   const defaultTheme = createTheme();
 
-  const { accessToken } = useAppSelector(({ user }) => user);
+  const { accessToken, isLogin } = useAppSelector(({ user }) => user);
 
-  if (!accessToken) return <>{children}</>;
+  if (!accessToken || !isLogin)
+    return (
+      <ThemeProvider theme={defaultTheme}>
+        <Box>
+          <Container>
+            <Grid>{children}</Grid>
+          </Container>
+        </Box>
+      </ThemeProvider>
+    );
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-        }}
-      >
+      <Box>
         <Header>{children}</Header>
       </Box>
-      <Footer />
     </ThemeProvider>
   );
 };

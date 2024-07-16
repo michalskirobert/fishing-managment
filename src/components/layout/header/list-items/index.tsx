@@ -22,12 +22,15 @@ export const MainMenuListItems: React.FC<{
   return (
     <>
       {group.map(({ title, icon, to }) => (
-        <Link className="menu-link" href={to} key={to}>
-          <ListItemButton selected={currentPath === to}>
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={title} />
-          </ListItemButton>
-        </Link>
+        <ListItemButton
+          key={title}
+          selected={currentPath === to}
+          href={to}
+          LinkComponent={Link}
+        >
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText primary={title} />
+        </ListItemButton>
       ))}
 
       {currentIndex !== lastGroupIndex && <Divider sx={{ my: 1 }} />}

@@ -11,7 +11,7 @@ const initialState: UserDataProps = {
   accountCreatedDate: "",
   lastVisitedDate: "",
   accessToken: null,
-  tokenExprTime: 0,
+  isLogin: false,
 };
 
 export const userSlice = createSlice({

@@ -19,7 +19,17 @@ export const authApi = authSlice.injectEndpoints({
         displayErrorMessage(error);
       },
     }),
+    token: build.mutation<string, { token: string }>({
+      query: (body) => ({
+        url: `${baseUrl}/token`,
+        method: "post",
+        body,
+      }),
+      transformErrorResponse: (error) => {
+        displayErrorMessage(error);
+      },
+    }),
   }),
 });
 
-export const { useSignInMutation } = authApi;
+export const { useSignInMutation, useTokenMutation } = authApi;
