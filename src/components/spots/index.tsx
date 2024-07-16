@@ -33,6 +33,10 @@ export default function Spots() {
             data: data?.items || [],
             columns,
             loading: isLoading,
+            sortModel: [
+              { field: "area", sort: "desc" },
+              { field: "addedDate", sort: "desc" },
+            ],
             rowSelection: true,
             onRowSelectionModelChange: (row, Grid) =>
               setSelectedRow(Grid.api.getRow(row[0])),
