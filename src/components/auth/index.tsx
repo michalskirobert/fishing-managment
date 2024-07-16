@@ -48,7 +48,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (userData.accessToken) {
       const interval = setInterval(() => {
         checkToken({ token: `${userData.accessToken}` });
-      }, 9000);
+      }, 900000);
 
       return () => clearInterval(interval);
     }

@@ -25,6 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet-geosearch/dist/geosearch.css"
+        />
+      </head>
       <body className={inter.className}>
         <Providers>
           <AuthProvider>
