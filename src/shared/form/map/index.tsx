@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { Box, FormControl, Tooltip } from "@mui/material";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { Info } from "@mui/icons-material";
@@ -12,7 +14,6 @@ import "leaflet/dist/leaflet.css";
 
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import { useEffect, useState } from "react";
 
 export interface CustomInputProps<T extends FieldValues> {
   control: Control<T>;
