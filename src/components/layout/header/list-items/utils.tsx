@@ -26,9 +26,9 @@ export const menuList: MenuListProps[][] = [
       children: [],
     },
     {
-      title: "Rejestr wędkarzy",
+      title: "Wędkarze",
       icon: <People />,
-      to: "/people",
+      to: "/customers",
       permissions: [],
       children: [],
     },

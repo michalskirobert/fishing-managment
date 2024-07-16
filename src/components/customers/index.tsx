@@ -2,26 +2,20 @@
 
 import { ButtonGroup } from "@mui/material";
 
-import { UseSpotsService } from "./service";
-import { columns } from "./utils";
-import { AreaModal } from "./area-form/area-modal";
-
 import { DetailButton } from "@shared/detail-buttons";
 import { PageContent } from "@shared/page-content";
 import { Table } from "@shared/table";
+import { UseCustomersService } from "./service";
+import { columns } from "./utils";
 
-export default function Spots() {
-  const {
-    data,
-    isLoading,
-    buttons,
-    openAreaModal,
-    toggleAreaModal,
-    setSelectedRow,
-  } = UseSpotsService();
+export default function Customers() {
+  const { buttons, setSelectedRow } = UseCustomersService();
 
   return (
-    <PageContent title="Łowiska" subtitle="Lista dostepnych łowisk">
+    <PageContent
+      title="Wędkarze"
+      subtitle="Lista wędkarzy zarejestrowanych w PZW. W profilach znajdują się informacje o prowadzeniu rejestrów."
+    >
       <>
         <ButtonGroup sx={{ gap: 1 }}>
           {buttons.map((button) => (
@@ -30,11 +24,11 @@ export default function Spots() {
         </ButtonGroup>
         <Table
           {...{
-            data: data?.items || [],
+            data: [],
             columns,
-            loading: isLoading,
+            loading: false,
             sortModel: [
-              { field: "area", sort: "desc" },
+              { field: "fullname", sort: "desc" },
               { field: "addedDate", sort: "desc" },
             ],
             rowSelection: true,
@@ -42,7 +36,7 @@ export default function Spots() {
               setSelectedRow(Grid.api.getRow(row[0])),
           }}
         />
-        <AreaModal {...{ open: openAreaModal, toggle: toggleAreaModal }} />
+        {/* <AreaModal {...{ open: openAreaModal, toggle: toggleAreaModal }} /> */}
       </>
     </PageContent>
   );
