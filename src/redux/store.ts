@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import storageSession from "redux-persist/lib/storage/session"; // Import sessionStorage from redux-persist
 
 import { apiSlice, authSlice } from "@api/config";
 import userReducer from "@redux/reducers/auth";
@@ -9,7 +9,7 @@ import initReducer from "@redux/reducers/init";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: storageSession,
   blacklist: [],
 };
 
