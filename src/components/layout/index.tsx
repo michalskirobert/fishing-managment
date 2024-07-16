@@ -10,9 +10,9 @@ import { Container } from "reactstrap";
 export const Theme = ({ children }: { children: React.ReactNode }) => {
   const defaultTheme = createTheme();
 
-  const { accessToken, isLogin } = useAppSelector(({ user }) => user);
+  const { isLogin } = useAppSelector(({ user }) => user);
 
-  if (!accessToken || !isLogin)
+  if (!isLogin)
     return (
       <ThemeProvider theme={defaultTheme}>
         <Box>
