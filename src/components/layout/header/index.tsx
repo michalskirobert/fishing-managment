@@ -1,5 +1,4 @@
-import * as React from "react";
-import { styled, createTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -18,6 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { menuList } from "./list-items/utils";
 import { MainMenuListItems } from "./list-items";
+import { useState } from "react";
 
 const drawerWidth: number = 240;
 
@@ -70,7 +70,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Header({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
