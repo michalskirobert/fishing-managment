@@ -24,7 +24,7 @@ export const UseSpotService = () => {
 
   const { data, isLoading, isSuccess } = useFishingSpotQuery(
     { area, id },
-    { skip: !id || !area }
+    { skip: !id || !area, refetchOnMountOrArgChange: true }
   );
 
   const methods = useForm<FishingSpotProps>({

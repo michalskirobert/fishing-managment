@@ -65,7 +65,7 @@ export const UseSpotService = () => {
 
   useEffect(() => {
     methods.reset({ ...defaultValues, area });
-  }, [methods, area]);
+  }, [methods.reset, defaultValues, area]);
 
   return { buttons, methods, onSave, isLoading, area };
 };

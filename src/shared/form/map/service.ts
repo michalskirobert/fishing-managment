@@ -1,15 +1,27 @@
 import { LeafletEvent } from "leaflet";
 import { useState } from "react";
 import { useMapEvents } from "react-leaflet";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 
-export const useMapService = () => {
+interface MapServiceProps<T extends FieldValues> {
+  control: Control<T>;
+  name?: string;
+}
+
+export const useMapService = <T extends FieldValues>({
+  control,
+  name,
+}: MapServiceProps<T>) => {
+  const {
+    field: { value, onChange },
+  } = useController({ control, name: name as Path<T> });
+
   const [zoom, setZoom] = useState<number>(12);
-  const [marker, setMarker] = useState<{ lat: number; lng: number }>();
 
   const handleMapClick = (e: L.LeafletMouseEvent) => {
     const newMarker = { lat: e.latlng.lat, lng: e.latlng.lng };
 
-    setMarker(newMarker); // Add the new marker to the state
+    onChange(newMarker); // Add the new marker to the state
   };
 
   const MapClickHandler = () => {
@@ -33,7 +45,7 @@ export const useMapService = () => {
     setZoom,
     zoom,
     MapClickHandler,
-    marker,
-    setMarker,
+    value,
+    onChange,
   };
 };

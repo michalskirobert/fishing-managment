@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
-import { Marker } from "leaflet";
 
 interface SearchControlProps {
   provider: OpenStreetMapProvider;
-  setMarker: (value: { lat: number; lng: number }) => void;
+  onChange: (...event: any[]) => void;
   showMarker?: boolean;
   showPopup?: boolean;
   popupFormat?: (props: { query: string; result: any }) => string;
@@ -21,7 +20,7 @@ const SearchControl: React.FC<SearchControlProps> = (props) => {
   const map = useMap();
 
   useEffect(() => {
-    const { provider, setMarker, ...options } = props;
+    const { provider, onChange, ...options } = props;
 
     const searchControlOptions = {
       ...options,
@@ -36,7 +35,7 @@ const SearchControl: React.FC<SearchControlProps> = (props) => {
     const handleShowLocation = (event: any) => {
       const { location } = event;
       const { lat, lng } = location;
-      setMarker({ lat, lng });
+      onChange({ lat, lng });
     };
 
     map.on("geosearch/showlocation", handleShowLocation);

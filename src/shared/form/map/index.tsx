@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-
 import { Box, FormControl, Tooltip } from "@mui/material";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
+import { Control, FieldValues } from "react-hook-form";
 import { Info } from "@mui/icons-material";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { LeafletEvent } from "leaflet";
@@ -30,18 +28,13 @@ export const CustomMap = <T extends FieldValues>({
   name,
   label,
 }: CustomInputProps<T>) => {
-  const { setLocation, setZoom, zoom, MapClickHandler, marker, setMarker } =
-    useMapService();
-
-  const {
-    field: { value, onChange },
-  } = useController({ control, name: name as Path<T> });
+  const { setLocation, setZoom, zoom, MapClickHandler, value, onChange } =
+    useMapService({
+      control,
+      name,
+    });
 
   const prov = new OpenStreetMapProvider();
-
-  useEffect(() => {
-    setMarker(value);
-  }, [setMarker, value]);
 
   if (hide) return null;
 
@@ -83,17 +76,19 @@ export const CustomMap = <T extends FieldValues>({
               animateZoom: true,
               autoClose: false,
               searchLabel: "Napisz nazwę miejscowości lub ulicy",
-              setMarker,
+              onChange,
             }}
           />
 
-          {marker?.lat && (
+          {value?.lat && (
             <Marker
               {...{
                 keyboard: false,
-                position: marker,
+                position: value,
                 draggable: true,
-                onDragend: (e: LeafletEvent) => onChange(setLocation(e)),
+                eventHandlers: {
+                  dragend: (e) => onChange(setLocation(e)),
+                },
               }}
             >
               <Popup>Dodane łowisko</Popup>
