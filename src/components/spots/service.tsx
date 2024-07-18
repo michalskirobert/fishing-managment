@@ -31,7 +31,7 @@ export const UseSpotsService = () => {
 
     if (!area || !_id) return;
 
-    remove({ area, id: _id })
+    remove({ area: area?.toLowerCase(), id: _id })
       .unwrap()
       .then(() => {
         refetch();
