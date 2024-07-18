@@ -4,6 +4,7 @@ import monster from "@assets/images/animations/godzilla.gif";
 
 import "@assets/css/page-not-found.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function NotFound() {
   return (
@@ -27,7 +28,7 @@ export default async function NotFound() {
           </Button>
           dopóki nie jest za późno!
         </div>
-        <img id="monsterImg" src={monster.src} alt="Godzilla" />
+        <Image id="monsterImg" src={monster.src} alt="Godzilla" />
       </Grid>
     </Grid>
   );

@@ -41,7 +41,7 @@ export function VerifyTokenFailurePage() {
       clearInterval(time);
       clearTimeout(timeout);
     };
-  }, []);
+  }, [router]);
 
   return (
     <Container maxWidth="md">

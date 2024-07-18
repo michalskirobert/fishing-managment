@@ -61,8 +61,8 @@ export const WarningModal: React.FC<AreaModalProps> = ({
       </IconButton>
       <DialogContent dividers>
         <Typography gutterBottom>
-          Czy na pewno chce usunąć łowisko o nazwie "{name}"" i kodzie "{code}"
-          należące do okręgu {area}?
+          Czy na pewno chce usunąć łowisko o nazwie &quot;{name}&quot; i kodzie
+          &quot;{code}&quot; należące do okręgu {area}?
         </Typography>
       </DialogContent>
       <DialogActions>
