@@ -23,7 +23,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const currentPath = usePathname();
 
   // Wrap the initialization of excludedPaths in useMemo
-  const excludedPaths = useMemo(() => ["/sign-in", "/sign-up"], []);
+  const excludedPaths = useMemo(
+    () => ["/sign-in", "/sign-up", "/callback/new-password"],
+    []
+  );
 
   useEffect(() => {
     if (!userData.accessToken && !excludedPaths.includes(currentPath)) {
