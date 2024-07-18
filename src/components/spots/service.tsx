@@ -19,8 +19,10 @@ export const UseSpotsService = () => {
   const [remove, { isLoading: isRemoving }] = useRemoveFishingSpotMutation();
 
   const [openAreaModal, setOpenAreaModal] = useState<boolean>(false);
+  const [openWarningModal, setOpenWarningModal] = useState<boolean>(false);
 
   const toggleAreaModal = () => setOpenAreaModal(!openAreaModal);
+  const toggleWarningModal = () => setOpenWarningModal(!openWarningModal);
 
   const router = useRouter();
 
@@ -33,6 +35,7 @@ export const UseSpotsService = () => {
       .unwrap()
       .then(() => {
         refetch();
+        toggleWarningModal();
         toast.success("Pomyślnie usunięto łowisko");
       });
   };
@@ -74,7 +77,7 @@ export const UseSpotsService = () => {
         startIcon: <Delete />,
         disabled: !selectedRow?._id,
         variant: "contained",
-        onClick: removeFishingSpot,
+        onClick: toggleWarningModal,
       },
     },
   ];
@@ -86,5 +89,10 @@ export const UseSpotsService = () => {
     openAreaModal,
     toggleAreaModal,
     setSelectedRow,
+    openWarningModal,
+    toggleWarningModal,
+    selectedRow,
+    removeFishingSpot,
+    isRemoving,
   };
 };

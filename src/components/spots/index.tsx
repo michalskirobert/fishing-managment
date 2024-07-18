@@ -9,6 +9,7 @@ import { AreaModal } from "./area-form/area-modal";
 import { DetailButton } from "@shared/detail-buttons";
 import { PageContent } from "@shared/page-content";
 import { Table } from "@shared/table";
+import { WarningModal } from "./warning-modal";
 
 export default function Spots() {
   const {
@@ -18,6 +19,11 @@ export default function Spots() {
     openAreaModal,
     toggleAreaModal,
     setSelectedRow,
+    openWarningModal,
+    selectedRow,
+    toggleWarningModal,
+    removeFishingSpot,
+    isRemoving,
   } = UseSpotsService();
 
   return (
@@ -43,6 +49,15 @@ export default function Spots() {
           }}
         />
         <AreaModal {...{ open: openAreaModal, toggle: toggleAreaModal }} />
+        <WarningModal
+          {...{
+            spotData: selectedRow,
+            open: openWarningModal,
+            toggle: toggleWarningModal,
+            removeFishingSpot,
+            isRemoving,
+          }}
+        />
       </>
     </PageContent>
   );

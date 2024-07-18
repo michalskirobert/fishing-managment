@@ -1,6 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 
 import { FishingSpotProps } from "@api/service/fishing-spots/types";
+import { BooleanProvider } from "@src/shared/table/providers/boolean";
 
 export const columns: GridColDef<FishingSpotProps[][number]>[] = [
   { field: "code", headerName: "Kod", filterable: true, flex: 1 },
@@ -35,9 +36,16 @@ export const columns: GridColDef<FishingSpotProps[][number]>[] = [
     filterable: true,
     flex: 1,
   },
+
   {
     field: "isNoKill",
     headerName: "Złów i wypuść",
+    type: "boolean",
+    filterable: true,
+  },
+  {
+    field: "isLeaseEnd",
+    headerName: "Zakończone",
     type: "boolean",
     filterable: true,
   },

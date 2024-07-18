@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import { Paper, Avatar, Grid, CssBaseline } from "@mui/material";
-import { Person } from "@mui/icons-material";
+import { PermIdentity } from "@mui/icons-material";
 
 import { useSignInService } from "./service";
 import { generateForm } from "./utils";
@@ -45,7 +45,7 @@ export default function SignIn() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <Person />
+            <PermIdentity />
           </Avatar>
           <Typography component="h1" variant="h5">
             Logowanie
