@@ -56,6 +56,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return () => clearInterval(interval);
     }
   }, [
+    currentPath,
     isError,
     userData.accessToken,
     excludedPaths,
