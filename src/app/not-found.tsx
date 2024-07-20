@@ -28,7 +28,13 @@ export default async function NotFound() {
           </Button>
           dopóki nie jest za późno!
         </div>
-        <Image id="monsterImg" src={monster.src} alt="Godzilla" />
+        <Image
+          id="monsterImg"
+          src={monster.src}
+          alt="Godzilla"
+          height={300}
+          width={354}
+        />
       </Grid>
     </Grid>
   );

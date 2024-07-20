@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 import { FieldProps } from "@shared/form";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-export const generateForm = <T extends FieldValues>(
+export const useGenerateSignInForm = <T extends FieldValues>(
   control: Control<T>
 ): FieldProps<T>[][] => {
   return [
@@ -21,21 +24,13 @@ export const generateForm = <T extends FieldValues>(
     [
       {
         control,
-        controlType: "input",
+        controlType: "password",
+        showPasswordVisibility: true,
         inputProps: {
           label: "Hasło",
           name: "password",
-          type: "password",
           required: true,
         },
-      },
-    ],
-    [
-      {
-        control,
-        controlType: "checkbox",
-        label: "Zapamiętaj mnie",
-        checkboxProps: { name: "rememberMe" },
       },
     ],
   ];

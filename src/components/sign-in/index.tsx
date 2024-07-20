@@ -7,7 +7,7 @@ import { Paper, Avatar, Grid, CssBaseline } from "@mui/material";
 import { PermIdentity } from "@mui/icons-material";
 
 import { useSignInService } from "./service";
-import { generateForm } from "./utils";
+import { useGenerateSignInForm } from "./utils";
 import { SignInFormProps } from "./types";
 
 import { DetailButton } from "@shared/detail-buttons";
@@ -57,7 +57,9 @@ export default function SignIn() {
           >
             <FormFields
               {...{
-                fieldData: generateForm<SignInFormProps>(methods.control),
+                fieldData: useGenerateSignInForm<SignInFormProps>(
+                  methods.control
+                ),
               }}
             />
             <DetailButton
@@ -66,6 +68,7 @@ export default function SignIn() {
                   isLoading: isSigning,
                   content: "Zaloguj",
                   buttonProps: {
+                    className: "mt-2",
                     color: "primary",
                     type: "submit",
                     variant: "contained",

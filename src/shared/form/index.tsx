@@ -14,6 +14,7 @@ import { CustomInput } from "./input";
 import { CustomCheckbox } from "./checkbox";
 import { CustomMap } from "./map";
 import { Col, Row } from "reactstrap";
+import { CustomPasswordInput } from "./password";
 
 type TColSizes = {
   xs?: number;
@@ -29,7 +30,8 @@ export type ControlType =
   | "switch"
   | "checkbox"
   | "date"
-  | "map";
+  | "map"
+  | "password";
 
 export type FieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -44,6 +46,7 @@ export type FieldProps<T extends FieldValues> = {
   tooltipMessage?: string;
   dictionaryId?: string;
   isLoading?: boolean;
+  showPasswordVisibility?: boolean;
   classnames?: {
     colClassName?: string;
   };
@@ -78,6 +81,7 @@ export const GenerateField = <T extends FieldValues>({
     name,
     isLoading,
     dictionaryId,
+    showPasswordVisibility,
   } = formField;
 
   switch (controlType) {
@@ -93,7 +97,19 @@ export const GenerateField = <T extends FieldValues>({
           }}
         />
       );
-
+    case "password":
+      return (
+        <CustomPasswordInput
+          {...{
+            control,
+            tooltip,
+            hide,
+            inputProps: inputProps || {},
+            tooltipMessage,
+            showPasswordVisibility,
+          }}
+        />
+      );
     case "select":
       return (
         <CustomSelect

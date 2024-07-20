@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -17,7 +19,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { menuList } from "./list-items/utils";
 import { MainMenuListItems } from "./list-items";
-import { useState } from "react";
+import { versionApp } from "@src/utils/version";
 
 const drawerWidth: number = 240;
 
@@ -134,6 +136,17 @@ export default function Header({ children }: { children: React.ReactNode }) {
             />
           ))}
         </List>
+        {open && (
+          <Typography
+            variant="caption"
+            component={"span"}
+            textAlign={"center"}
+            marginTop={"auto"}
+            mb={2}
+          >
+            Wersja aplikacji: {versionApp}
+          </Typography>
+        )}
       </Drawer>
       <Box
         component="main"
