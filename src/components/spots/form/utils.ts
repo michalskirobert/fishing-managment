@@ -117,6 +117,6 @@ export const defaultValues: FishingSpotProps = {
   author: "",
   isNoKill: false,
   isLeaseEnd: false,
-  leaseFrom: "",
-  leaseUntil: "",
+  leaseFrom: null,
+  leaseUntil: null,
 };

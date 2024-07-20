@@ -10,8 +10,8 @@ export type FishingSpotProps = {
   };
   author?: string;
   addedDate?: string;
-  leaseFrom?: string;
-  leaseUntil?: string;
+  leaseFrom?: string | null;
+  leaseUntil?: string | null;
   description: string;
   editedBy?: string;
   editDate?: string;

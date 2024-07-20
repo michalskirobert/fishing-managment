@@ -15,6 +15,7 @@ import { CustomCheckbox } from "./checkbox";
 import { CustomMap } from "./map";
 import { Col, Row } from "reactstrap";
 import { CustomPasswordInput } from "./password";
+import { CustomDatePicker } from "./date";
 
 type TColSizes = {
   xs?: number;
@@ -82,6 +83,7 @@ export const GenerateField = <T extends FieldValues>({
     isLoading,
     dictionaryId,
     showPasswordVisibility,
+    dateProps,
   } = formField;
 
   switch (controlType) {
@@ -150,16 +152,17 @@ export const GenerateField = <T extends FieldValues>({
           }}
         />
       );
-    // case "date":
-    //   return (
-    //     <CustomDatePicker
-    //       {...{
-    //         control,
-    //         hide,
-    //         dateProps: dateProps || {},
-    //       }}
-    //     />
-    //   );
+    case "date":
+      return (
+        <CustomDatePicker
+          {...{
+            control,
+            hide,
+            tooltip,
+            dateProps: dateProps || {},
+          }}
+        />
+      );
     case "map":
       return (
         <CustomMap

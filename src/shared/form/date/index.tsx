@@ -21,6 +21,8 @@ export const CustomDatePicker = <T extends FieldValues>({
   hide,
   tooltip,
 }: CustomDatePickerProps<T>) => {
+  console.log(tooltip);
+
   if (hide) return null;
 
   return (
@@ -44,11 +46,18 @@ export const CustomDatePicker = <T extends FieldValues>({
                 {...{
                   format: "DD-MM-YYYY",
                   ...dateProps,
-                  value,
+                  value: value || null,
                   name,
                   onBlur,
                   onChange,
                   ref,
+                }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    variant: "outlined",
+                    error: invalid,
+                  },
                 }}
               />
               <FormFeedback message={error?.message} />

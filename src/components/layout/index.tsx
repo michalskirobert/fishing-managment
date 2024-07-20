@@ -12,21 +12,16 @@ export const Theme = ({ children }: { children: React.ReactNode }) => {
 
   const { isLogin } = useAppSelector(({ user }) => user);
 
-  if (!isLogin)
-    return (
-      <ThemeProvider theme={defaultTheme}>
-        <Box>
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Box component={"div"}>
+        {isLogin ? (
+          <Header>{children}</Header>
+        ) : (
           <Container>
             <Grid>{children}</Grid>
           </Container>
-        </Box>
-      </ThemeProvider>
-    );
-
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box>
-        <Header>{children}</Header>
+        )}
       </Box>
     </ThemeProvider>
   );

@@ -57,7 +57,9 @@ export const UseSpotsService = () => {
         startIcon: <Edit />,
         disabled: !selectedRow?._id,
         onClick: () =>
-          router.push(`spots/${selectedRow?.area}/${selectedRow?._id}`),
+          router.push(
+            `spots/${selectedRow?.area?.toLowerCase()}/${selectedRow?._id}`
+          ),
         variant: "contained",
       },
     },
