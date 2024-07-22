@@ -2,9 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { Init } from "@api/service/init/types";
 
-
-type Values<T> = T[keyof T];
-
 export const PermissionsStatus = {
   uninitialized: "uninitialized",
   fullfiled: "fullfiled",

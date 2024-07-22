@@ -1,4 +1,10 @@
-import { Button, ButtonProps, CircularProgress, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonProps,
+  CircularProgress,
+  Tooltip,
+} from "@mui/material";
 
 export type TCustomButtonProps = {
   buttonProps: ButtonProps;
@@ -21,20 +27,26 @@ export const CustomButton: React.FC<TCustomButtonProps> = ({
 
   return (
     <Tooltip title={tooltipContent}>
-      <Button
-        {...{
-          ...buttonProps,
-          className: `${buttonProps?.className || "mb-2 btn-shadow"}`,
-          disabled: isLoading || !!buttonProps?.disabled,
-          startIcon: isLoading ? (
-            <CircularProgress size={"20px"} thickness={5} />
-          ) : (
-            buttonProps.startIcon
-          ),
-        }}
+      <Box
+        component={"span"}
+        display="inline"
+        sx={buttonProps.disabled ? { cursor: "not-allowed" } : null}
       >
-        {content}
-      </Button>
+        <Button
+          {...{
+            ...buttonProps,
+            className: `${buttonProps?.className || "mb-2 btn-shadow"}`,
+            disabled: isLoading || !!buttonProps?.disabled,
+            startIcon: isLoading ? (
+              <CircularProgress size={"20px"} thickness={5} />
+            ) : (
+              buttonProps.startIcon
+            ),
+          }}
+        >
+          {content}
+        </Button>
+      </Box>
     </Tooltip>
   );
 };

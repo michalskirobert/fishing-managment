@@ -1,10 +1,8 @@
 "use client";
 
-import { ButtonGroup } from "@mui/material";
-
 import { UseSpotsService } from "./service";
 import { columns } from "./utils";
-import { AreaModal } from "./area-form/area-modal";
+import { DistrictModal } from "./district-modal";
 
 import { DetailButton } from "@shared/detail-buttons";
 import { PageContent } from "@shared/page-content";
@@ -16,8 +14,8 @@ export default function Spots() {
     data,
     isLoading,
     buttons,
-    openAreaModal,
-    toggleAreaModal,
+    isOpenDistrictModal,
+    toggleDistrictModal,
     setSelectedRow,
     openWarningModal,
     selectedRow,
@@ -29,11 +27,15 @@ export default function Spots() {
   return (
     <PageContent title="Łowiska" subtitle="Lista dostepnych łowisk">
       <>
-        <ButtonGroup sx={{ gap: 1 }}>
-          {buttons.map((button) => (
-            <DetailButton key={button.content} {...{ button }} />
+        <div className="d-flex flex-wrap justify-content-between">
+          {buttons.map((group) => (
+            <div className="d-flex flex-wrap gap-2">
+              {group.map((button) => (
+                <DetailButton key={button.content} {...{ button }} />
+              ))}
+            </div>
           ))}
-        </ButtonGroup>
+        </div>
         <Table
           {...{
             data: data?.items || [],
@@ -48,7 +50,7 @@ export default function Spots() {
               setSelectedRow(Grid.api.getRow(row[0])),
           }}
         />
-        <AreaModal {...{ open: openAreaModal, toggle: toggleAreaModal }} />
+        <DistrictModal {...{ isOpenDistrictModal, toggleDistrictModal }} />
         <WarningModal
           {...{
             spotData: selectedRow,

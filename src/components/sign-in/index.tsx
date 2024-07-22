@@ -15,6 +15,7 @@ import { DetailButton } from "@shared/detail-buttons";
 import { FormFields } from "@shared/form";
 
 import background from "@assets/images/backgrounds/sign-in-hero.jpg";
+import { versionApp } from "@src/utils/version";
 
 export default function SignIn() {
   const { isSigning, onSubmit, methods } = useSignInService();
@@ -77,13 +78,18 @@ export default function SignIn() {
               }}
             />
             <Grid container>
-              <Grid item xs>
+              <Grid item xl={12}>
                 <Link href="/callback/new-password" variant="body2">
                   Zapomniałeś hasła?
                 </Link>
               </Grid>
             </Grid>
           </Box>
+        </Box>
+        <Box component={"div"} textAlign={"center"} mt="auto">
+          <Typography variant="subtitle2" component={"span"}>
+            Wersja aplikacji: {versionApp}
+          </Typography>
         </Box>
       </Grid>
     </Grid>

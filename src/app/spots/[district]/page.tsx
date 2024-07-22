@@ -1,7 +1,7 @@
 import { FallbackLoader } from "@shared/fallback";
 import dynamic from "next/dynamic";
 
-const SpotsComponent = dynamic(() => import("@components/spots/area-form"), {
+const SpotsComponent = dynamic(() => import("@components/spots/form"), {
   ssr: false,
   loading: () => <FallbackLoader />,
 });

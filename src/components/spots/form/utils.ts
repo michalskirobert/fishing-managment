@@ -5,8 +5,7 @@ import { FieldProps } from "@shared/form";
 
 export const generateForm = <T extends FieldValues>(
   control: Control<T>,
-  areaOptions?: { label: string; value: string }[],
-  isFetchingAreaList?: boolean
+  areaOptions?: { label: string; value: string }[]
 ): FieldProps<T>[][] => [
   [
     {
@@ -34,19 +33,33 @@ export const generateForm = <T extends FieldValues>(
         required: true,
       },
     },
+  ],
+  [
     {
       control,
       controlType: "select",
       tooltip: "Okręg do którego jest przydzielone łowisko",
       options: areaOptions || [],
-      isLoading: isFetchingAreaList,
       selectProps: {
         label: "Okręg",
-        name: "area",
+        name: "district",
         variant: "outlined",
         color: "primary",
         required: true,
         disabled: true,
+      },
+    },
+    {
+      control,
+      controlType: "select",
+      tooltip: "Koło do którego jest przydzielone łowisko",
+      options: areaOptions || [],
+      selectProps: {
+        label: "Koło",
+        name: "club",
+        variant: "outlined",
+        color: "primary",
+        required: true,
       },
     },
   ],
@@ -108,7 +121,8 @@ export const generateForm = <T extends FieldValues>(
 ];
 
 export const defaultValues: FishingSpotProps = {
-  area: "",
+  district: "",
+  club: "",
   code: "",
   description: "",
   geolocation: { lat: 52.2330909, lng: 20.9301089 },

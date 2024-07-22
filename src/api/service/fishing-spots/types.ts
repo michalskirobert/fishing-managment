@@ -1,7 +1,8 @@
 export type FishingSpotProps = {
   _id?: string;
   name: string;
-  area: string;
+  club: string;
+  district: string;
   code: string;
   isNoKill?: boolean;
   geolocation: {
@@ -20,6 +21,6 @@ export type FishingSpotProps = {
 
 export type FishingSpotRequest = {
   id: string;
-  area: string;
+  district: string;
   body?: Partial<FishingSpotProps>;
 };

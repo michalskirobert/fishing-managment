@@ -7,6 +7,7 @@ import RedirectPage from "./pages/redirect-page";
 import { useTokenMutation } from "@src/api/service/auth";
 import { VerifyTokenPage } from "./pages/token-page";
 import { clearUser } from "@src/redux/reducers/auth";
+import { setPreviousPage } from "@src/redux/reducers/history";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -30,6 +31,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (!userData.accessToken && !excludedPaths.includes(currentPath)) {
+      dispatch(setPreviousPage(currentPath));
+
       const time = setTimeout(() => {
         router.push("/sign-in");
       }, 1000);

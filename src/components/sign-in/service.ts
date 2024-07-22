@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { validationSchema } from "./validation-schema";
 import { SignInFormProps } from "./types";
 
-import { useAppDispatch } from "@redux/store";
+import { useAppDispatch, useAppSelector } from "@redux/store";
 import { setUser } from "@redux/reducers/auth";
 import { useSignInMutation } from "@api/service/auth";
 
 export const useSignInService = () => {
+  const { previousPage } = useAppSelector(({ history }) => history);
   const router = useRouter();
 
   const [signIn, { isLoading: isSigning }] = useSignInMutation();
@@ -28,7 +29,7 @@ export const useSignInService = () => {
       .unwrap()
       .then((data) => {
         dispatch(setUser({ ...data, isLogin: true }));
-        router.push("/");
+        router.push(previousPage);
       });
   };
 

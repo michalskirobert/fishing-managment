@@ -9,14 +9,18 @@ export const columns: GridColDef<FishingSpotProps[][number]>[] = [
     field: "name",
     headerName: "Nazwa",
     filterable: true,
-
     flex: 1,
   },
   {
-    field: "area",
+    field: "district",
     headerName: "Okręg",
     filterable: true,
-
+    flex: 1,
+  },
+  {
+    field: "club",
+    headerName: "Koło",
+    filterable: true,
     flex: 1,
   },
   {

@@ -1,40 +1,37 @@
 "use client";
 
 import { Card, CardActions, CardContent, Paper } from "@mui/material";
-import { useFormContext } from "react-hook-form";
-
 import { generateForm } from "./utils";
 
-import { DetailButton, TButtonConfig } from "@shared/detail-buttons";
+import { DetailButton } from "@shared/detail-buttons";
 import { PageContent } from "@shared/page-content";
 import { FormFields } from "@shared/form";
 import { CustomLoadingBlocker } from "@shared/custom-loading-blocker";
-import { FishingSpotProps } from "@api/service/fishing-spots/types";
-import { useSpotsDictionaryQuery } from "@api/service/dictionaries";
+import { UseSpotService } from "./service";
 
-interface SpotFormProps {
-  buttons: TButtonConfig[];
-  blocking: boolean;
-  onSave: (data: FishingSpotProps) => Promise<void>;
-  pageTitle: string;
-}
-
-export const SpotForm: React.FC<SpotFormProps> = ({
-  blocking,
-  buttons,
-  onSave,
-  pageTitle,
-}) => {
-  const { handleSubmit, control } = useFormContext<FishingSpotProps>();
-  const { data: areaOptions, isFetching: isAreaListFetching } =
-    useSpotsDictionaryQuery(undefined, { refetchOnMountOrArgChange: true });
+export default function SpotForm() {
+  const {
+    onSave,
+    isLoading,
+    buttons,
+    control,
+    handleSubmit,
+    districtOptions,
+    id,
+    data,
+    district,
+  } = UseSpotService();
 
   return (
     <PageContent
-      title={pageTitle}
+      title={
+        id
+          ? `Łowisko ${data?.name} (kod: ${data?.code}) w okręgu ${district}`
+          : `Dodaj nowe łowisko w okręgu ${district}`
+      }
       subtitle='Uzupełnił wszystkie wymagane pola, które są oznaczone "*"'
     >
-      <CustomLoadingBlocker isLoading={blocking}>
+      <CustomLoadingBlocker {...{ isLoading }}>
         <form onSubmit={handleSubmit(onSave)}>
           <Paper sx={{ p: 2 }}>
             <Card>
@@ -48,11 +45,10 @@ export const SpotForm: React.FC<SpotFormProps> = ({
                   {...{
                     fieldData: generateForm(
                       control,
-                      areaOptions?.map(({ name }) => ({
+                      districtOptions?.map(({ name }) => ({
                         label: name,
                         value: name.toLowerCase(),
-                      })),
-                      isAreaListFetching
+                      }))
                     ),
                   }}
                 />
@@ -63,4 +59,4 @@ export const SpotForm: React.FC<SpotFormProps> = ({
       </CustomLoadingBlocker>
     </PageContent>
   );
-};
+}

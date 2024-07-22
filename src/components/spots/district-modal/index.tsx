@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
@@ -29,22 +29,29 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-interface AreaModalProps {
-  toggle: () => void;
-  open: boolean;
+interface DistrictModalProps {
+  toggleDistrictModal: () => void;
+  isOpenDistrictModal: boolean;
 }
 
-export const AreaModal: React.FC<AreaModalProps> = ({ open, toggle }) => {
+interface DistrictProps {
+  district: string;
+}
+
+export const DistrictModal: React.FC<DistrictModalProps> = ({
+  isOpenDistrictModal,
+  toggleDistrictModal,
+}) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const methods = useForm<{ area: string }>({
+  const methods = useForm<DistrictProps>({
     mode: "all",
     resolver: yupResolver(validationSchema),
   });
 
   const router = useRouter();
 
-  const onSave = (data: FieldValues) => {
-    router.push(`/spots/${data?.area}`);
+  const onSave = (data: DistrictProps) => {
+    router.push(`/spots/${data?.district}`);
   };
 
   const { data, isFetching } = useSpotsDictionaryQuery(undefined, {
@@ -55,9 +62,9 @@ export const AreaModal: React.FC<AreaModalProps> = ({ open, toggle }) => {
   return (
     <FormProvider {...methods}>
       <BootstrapDialog
-        onClose={toggle}
+        onClose={toggleDistrictModal}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={isOpenDistrictModal}
       >
         <Box
           component="form"
@@ -69,7 +76,7 @@ export const AreaModal: React.FC<AreaModalProps> = ({ open, toggle }) => {
           </DialogTitle>
           <IconButton
             aria-label="close"
-            onClick={toggle}
+            onClick={toggleDistrictModal}
             sx={{
               position: "absolute",
               right: 8,
@@ -116,7 +123,7 @@ export const AreaModal: React.FC<AreaModalProps> = ({ open, toggle }) => {
                   content: "Wróć",
                   tooltipContent:
                     "Okno modalne zostanie wyłączone i wrócisz na listę łowisk",
-                  buttonProps: { color: "error", onClick: toggle },
+                  buttonProps: { color: "error", onClick: toggleDistrictModal },
                 },
               }}
             />

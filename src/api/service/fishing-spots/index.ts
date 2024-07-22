@@ -8,7 +8,7 @@ const baseUrl = INSTANCES_URLS.fishingSpots;
 
 export const fishingSpotsApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    fishingSpotsList: build.query<DataList<FishingSpotProps>, void>({
+    getFishingSpotsList: build.query<DataList<FishingSpotProps>, void>({
       query: () => ({
         url: baseUrl,
       }),
@@ -16,15 +16,15 @@ export const fishingSpotsApi = apiSlice.injectEndpoints({
         displayErrorMessage(error);
       },
     }),
-    fishingSpot: build.query<FishingSpotProps, FishingSpotRequest>({
-      query: ({ id, area }) => ({
-        url: `${baseUrl}/${area}/${id}`,
+    getFishingSpot: build.query<FishingSpotProps, FishingSpotRequest>({
+      query: ({ id, district }) => ({
+        url: `${baseUrl}/${district}/${id}`,
       }),
       transformErrorResponse: (error) => {
         displayErrorMessage(error);
       },
     }),
-    addFishingSpot: build.mutation<FishingSpotProps, FishingSpotProps>({
+    createFishingSpot: build.mutation<FishingSpotProps, FishingSpotProps>({
       query: (body) => ({
         url: baseUrl,
         body,
@@ -34,9 +34,9 @@ export const fishingSpotsApi = apiSlice.injectEndpoints({
         displayErrorMessage(error);
       },
     }),
-    editFishingSpot: build.mutation<FishingSpotProps, FishingSpotRequest>({
-      query: ({ area, id, body }) => ({
-        url: `${baseUrl}/${area}/${id}`,
+    updateFishingSpot: build.mutation<FishingSpotProps, FishingSpotRequest>({
+      query: ({ district, id, body }) => ({
+        url: `${baseUrl}/${district}/${id}`,
         body,
         method: "put",
       }),
@@ -45,8 +45,8 @@ export const fishingSpotsApi = apiSlice.injectEndpoints({
       },
     }),
     removeFishingSpot: build.mutation<void, FishingSpotRequest>({
-      query: ({ id, area }) => ({
-        url: `${baseUrl}/${area}/${id}`,
+      query: ({ id, district }) => ({
+        url: `${baseUrl}/${district}/${id}`,
         method: "delete",
       }),
       transformErrorResponse: (error) => {
@@ -57,9 +57,9 @@ export const fishingSpotsApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useFishingSpotsListQuery,
-  useAddFishingSpotMutation,
-  useEditFishingSpotMutation,
-  useFishingSpotQuery,
+  useGetFishingSpotQuery,
+  useGetFishingSpotsListQuery,
+  useCreateFishingSpotMutation,
+  useUpdateFishingSpotMutation,
   useRemoveFishingSpotMutation,
 } = fishingSpotsApi;
