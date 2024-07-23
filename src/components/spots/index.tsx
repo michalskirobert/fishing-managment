@@ -28,8 +28,8 @@ export default function Spots() {
     <PageContent title="Łowiska" subtitle="Lista dostepnych łowisk">
       <>
         <div className="d-flex flex-wrap justify-content-between">
-          {buttons.map((group) => (
-            <div className="d-flex flex-wrap gap-2">
+          {buttons.map((group, index) => (
+            <div key={index} className="d-flex flex-wrap gap-2">
               {group.map((button) => (
                 <DetailButton key={button.content} {...{ button }} />
               ))}

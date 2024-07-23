@@ -129,7 +129,7 @@ export const UseSpotService = () => {
     } else {
       reset({ ...defaultValues, district });
     }
-  }, [reset, district, data]);
+  }, [reset, district, data, isSuccess]);
 
   useEffect(() => {
     if (isDistrictsSuccess) {
@@ -146,7 +146,6 @@ export const UseSpotService = () => {
 
   useEffect(() => {
     if (isSpotTypesSuccess) {
-      console.log(spotTypes);
       setSpotTypeOptions(
         spotTypes.map(({ name }) => ({ label: name, value: name }))
       );

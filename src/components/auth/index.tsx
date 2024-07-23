@@ -39,7 +39,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return () => clearTimeout(time);
     }
-  }, [userData, excludedPaths, currentPath, router]);
+  }, [dispatch, userData, excludedPaths, currentPath, router]);
 
   useEffect(() => {
     if (isError) {
