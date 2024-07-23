@@ -8,6 +8,8 @@ const initialState: HistoryPropsState = {
   previousPage: "/",
 };
 
+const blacklist = ["/sign-in", "/sign-out"];
+
 export const historySlice = createSlice({
   name: "history",
   initialState,
@@ -15,7 +17,7 @@ export const historySlice = createSlice({
     setPreviousPage: (state, action: PayloadAction<string>) => {
       const pathname = action.payload;
 
-      if (pathname === "/sign-in") {
+      if (blacklist.includes(pathname)) {
         state.previousPage = "/";
       } else {
         state.previousPage = action.payload;

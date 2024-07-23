@@ -1,4 +1,4 @@
-import { SpotsDictionary } from "./types";
+import { DistrictProps } from "./types";
 
 import { apiSlice } from "@api/config";
 import { INSTANCES_URLS } from "@api/utils";
@@ -8,9 +8,9 @@ const baseUrl = INSTANCES_URLS.dictionaries;
 
 export const dictionariesApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    spotsDictionary: build.query<SpotsDictionary[], void>({
+    getDistricts: build.query<DistrictProps[], void>({
       query: () => ({
-        url: `${baseUrl}/spots`,
+        url: `${baseUrl}/districts`,
       }),
       transformErrorResponse: (error) => {
         displayErrorMessage(error);
@@ -19,5 +19,4 @@ export const dictionariesApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useSpotsDictionaryQuery, useLazySpotsDictionaryQuery } =
-  dictionariesApi;
+export const { useGetDistrictsQuery } = dictionariesApi;

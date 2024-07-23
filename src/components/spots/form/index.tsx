@@ -16,10 +16,11 @@ export default function SpotForm() {
     buttons,
     control,
     handleSubmit,
-    districtOptions,
     id,
     data,
     district,
+    clubOptions,
+    districtOptions,
   } = UseSpotService();
 
   return (
@@ -45,10 +46,8 @@ export default function SpotForm() {
                   {...{
                     fieldData: generateForm(
                       control,
-                      districtOptions?.map(({ name }) => ({
-                        label: name,
-                        value: name.toLowerCase(),
-                      }))
+                      districtOptions,
+                      clubOptions
                     ),
                   }}
                 />

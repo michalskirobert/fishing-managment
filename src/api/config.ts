@@ -28,9 +28,8 @@ const handleTokenExpired = (
     | "CUSTOM_ERROR"
     | undefined
 ) => {
-  console.log(window.location.pathname);
   if (window.location.pathname === "/sign-in") return;
-  console.log("EXEC");
+
   if (status === 401 || status === 403) {
     window.location.href = "/sign-out";
   }

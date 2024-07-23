@@ -14,11 +14,12 @@ import { Info } from "@mui/icons-material";
 
 import { FormFeedback } from "@shared/form-feedback";
 import { CustomLoadingBlocker } from "@shared/custom-loading-blocker";
+import { OptionProps } from "@src/utils/types";
 
 export interface CustomSelectProps<T extends FieldValues> {
   control: Control<T>;
   selectProps?: SelectProps;
-  options?: { label: string; value: string | number }[];
+  options?: OptionProps[];
   tooltip?: string;
   hide?: boolean;
   isLoading?: boolean;

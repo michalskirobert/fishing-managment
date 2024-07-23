@@ -2,10 +2,12 @@ import { Control, FieldValues } from "react-hook-form";
 
 import { FishingSpotProps } from "@api/service/fishing-spots/types";
 import { FieldProps } from "@shared/form";
+import { OptionProps } from "@src/utils/types";
 
 export const generateForm = <T extends FieldValues>(
   control: Control<T>,
-  areaOptions?: { label: string; value: string }[]
+  districtOptions?: OptionProps[],
+  clubOptions?: OptionProps[]
 ): FieldProps<T>[][] => [
   [
     {
@@ -39,7 +41,7 @@ export const generateForm = <T extends FieldValues>(
       control,
       controlType: "select",
       tooltip: "Okręg do którego jest przydzielone łowisko",
-      options: areaOptions || [],
+      options: districtOptions || [],
       selectProps: {
         label: "Okręg",
         name: "district",
@@ -53,7 +55,7 @@ export const generateForm = <T extends FieldValues>(
       control,
       controlType: "select",
       tooltip: "Koło do którego jest przydzielone łowisko",
-      options: areaOptions || [],
+      options: clubOptions || [],
       selectProps: {
         label: "Koło",
         name: "club",

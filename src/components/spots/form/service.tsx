@@ -1,9 +1,9 @@
 import { useParams, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Save, ArrowBack, DisplaySettings } from "@mui/icons-material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { validationSchema } from "./validation-schema";
 import { defaultValues } from "./utils";
@@ -16,38 +16,42 @@ import {
   useGetFishingSpotQuery,
   useUpdateFishingSpotMutation,
 } from "@src/api/service/fishing-spots";
-import { useSpotsDictionaryQuery } from "@src/api/service/dictionaries";
+import { useGetDistrictsQuery } from "@src/api/service/dictionaries";
+import { OptionProps } from "@src/utils/types";
 
 export const UseSpotService = () => {
   const { email } = useAppSelector(({ user }) => user);
   const { id, district } = useParams<{ district: string; id?: string }>();
 
+  const [districtOptions, setDistrictOptions] = useState<OptionProps[]>([]);
+  const [clubOptions, setClubOptions] = useState<OptionProps[]>([]);
+
   const router = useRouter();
 
-  const {
-    reset,
-    control,
-    handleSubmit,
-    formState: { isDirty },
-  } = useForm<FishingSpotProps>({
-    mode: "all",
-    defaultValues,
-    resolver: yupResolver(validationSchema),
-  });
+  const { reset, control, handleSubmit, formState } = useForm<FishingSpotProps>(
+    {
+      mode: "all",
+      defaultValues,
+      resolver: yupResolver(validationSchema),
+    }
+  );
 
   const { data, isFetching, isSuccess } = useGetFishingSpotQuery(
     { district, id: `${id}` },
-    { skip: !id }
+    { skip: !id, refetchOnMountOrArgChange: true }
   );
 
-  const { data: districtOptions, isFetching: isdistrictListFetching } =
-    useSpotsDictionaryQuery(undefined, { refetchOnMountOrArgChange: true });
+  const {
+    data: districts,
+    isFetching: isDistrictListFetching,
+    isSuccess: isDistrictsSuccess,
+  } = useGetDistrictsQuery();
 
   const [create, { isLoading: isCreating }] = useCreateFishingSpotMutation();
   const [update, { isLoading: isUpdating }] = useUpdateFishingSpotMutation();
 
   const onSave = async (data: FishingSpotProps) => {
-    if (!isDirty) {
+    if (!formState?.isDirty) {
       router.push("/spots");
 
       return;
@@ -126,16 +130,30 @@ export const UseSpotService = () => {
     }
   }, [reset, district, data]);
 
+  useEffect(() => {
+    if (isDistrictsSuccess) {
+      setDistrictOptions(
+        districts.map(({ keyName, name }) => ({ label: name, value: keyName }))
+      );
+      setClubOptions(
+        districts
+          .find(({ keyName }) => keyName === district)
+          ?.clubs?.map(({ name }) => ({ label: name, value: name })) || []
+      );
+    }
+  }, [districts, district]);
+
   return {
     buttons,
     onSave,
-    isLoading: isUpdating || isCreating || isdistrictListFetching || isFetching,
+    isLoading: isUpdating || isCreating || isDistrictListFetching || isFetching,
     id,
     data,
     district,
     control,
     handleSubmit,
     districtOptions,
-    isdistrictListFetching,
+    clubOptions,
+    isDistrictListFetching,
   };
 };

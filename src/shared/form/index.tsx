@@ -16,6 +16,7 @@ import { CustomMap } from "./map";
 import { Col, Row } from "reactstrap";
 import { CustomPasswordInput } from "./password";
 import { CustomDatePicker } from "./date";
+import { OptionProps } from "@src/utils/types";
 
 type TColSizes = {
   xs?: number;
@@ -54,7 +55,7 @@ export type FieldProps<T extends FieldValues> = {
   hide?: boolean;
   name?: string;
   controlType: ControlType;
-  options?: { label: string; value: string | number }[];
+  options?: OptionProps[];
   tooltip?: string;
 };
 

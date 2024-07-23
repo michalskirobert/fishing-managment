@@ -21,8 +21,6 @@ export const CustomDatePicker = <T extends FieldValues>({
   hide,
   tooltip,
 }: CustomDatePickerProps<T>) => {
-  console.log(tooltip);
-
   if (hide) return null;
 
   return (

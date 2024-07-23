@@ -1,6 +1,10 @@
-export type SpotsDictionary = {
+export type ClubProps = {
   name: string;
-  _id: string;
-  commune: string;
-  province: string;
+  districtName: string;
+};
+
+export type DistrictProps = {
+  name: string;
+  keyName: string;
+  clubs: ClubProps[];
 };

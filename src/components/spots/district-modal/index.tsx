@@ -16,7 +16,7 @@ import { Box } from "@mui/material";
 
 import { validationSchema } from "./validation-schema";
 
-import { useSpotsDictionaryQuery } from "@api/service/dictionaries";
+import { useGetDistrictsQuery } from "@api/service/dictionaries";
 import { CustomSelect } from "@shared/form/select";
 import { DetailButton } from "@shared/detail-buttons";
 
@@ -54,9 +54,8 @@ export const DistrictModal: React.FC<DistrictModalProps> = ({
     router.push(`/spots/${data?.district}`);
   };
 
-  const { data, isFetching } = useSpotsDictionaryQuery(undefined, {
+  const { data, isFetching } = useGetDistrictsQuery(undefined, {
     skip: !isFocused,
-    refetchOnMountOrArgChange: true,
   });
 
   return (
@@ -94,12 +93,12 @@ export const DistrictModal: React.FC<DistrictModalProps> = ({
               {...{
                 control: methods.control,
                 isLoading: isFetching,
-                options: data?.map(({ name }) => ({
+                options: data?.map(({ name, keyName }) => ({
                   label: name,
-                  value: name.toLowerCase(),
+                  value: keyName,
                 })),
                 selectProps: {
-                  name: "area",
+                  name: "district",
                   onFocus: () => setIsFocused(true),
                 },
                 tooltip: "Wybór okręgu",
