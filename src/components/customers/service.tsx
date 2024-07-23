@@ -33,7 +33,7 @@ export const UseCustomersService = () => {
         startIcon: <Edit />,
         disabled: !selectedRow?._id,
         onClick: () =>
-          router.push(`spots/${selectedRow?.area}/${selectedRow?._id}`),
+          router.push(`spots/${selectedRow?.district}/${selectedRow?._id}`),
         variant: "contained",
       },
     },
