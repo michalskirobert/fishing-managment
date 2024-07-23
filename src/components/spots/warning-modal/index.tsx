@@ -36,7 +36,7 @@ export const WarningModal: React.FC<AreaModalProps> = ({
   removeFishingSpot,
   isRemoving,
 }) => {
-  const { area, code, name } = spotData || {};
+  const { district, code, name } = spotData || {};
   return (
     <BootstrapDialog
       onClose={toggle}
@@ -62,7 +62,7 @@ export const WarningModal: React.FC<AreaModalProps> = ({
       <DialogContent dividers>
         <Typography gutterBottom>
           Czy na pewno chce usunąć łowisko o nazwie &quot;{name}&quot; i kodzie
-          &quot;{code}&quot; należące do okręgu {area}?
+          &quot;{code}&quot; należące do okręgu {district}?
         </Typography>
       </DialogContent>
       <DialogActions>
