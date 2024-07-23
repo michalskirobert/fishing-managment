@@ -16,7 +16,15 @@ export const dictionariesApi = apiSlice.injectEndpoints({
         displayErrorMessage(error);
       },
     }),
+    getSpotTypes: build.query<DistrictProps[], void>({
+      query: () => ({
+        url: `${baseUrl}/spot-types`,
+      }),
+      transformErrorResponse: (error) => {
+        displayErrorMessage(error);
+      },
+    }),
   }),
 });
 
-export const { useGetDistrictsQuery } = dictionariesApi;
+export const { useGetDistrictsQuery, useGetSpotTypesQuery } = dictionariesApi;

@@ -21,6 +21,7 @@ export default function SpotForm() {
     district,
     clubOptions,
     districtOptions,
+    spotTypeOptions,
   } = UseSpotService();
 
   return (
@@ -47,7 +48,8 @@ export default function SpotForm() {
                     fieldData: generateForm(
                       control,
                       districtOptions,
-                      clubOptions
+                      clubOptions,
+                      spotTypeOptions
                     ),
                   }}
                 />

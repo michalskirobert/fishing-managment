@@ -17,6 +17,8 @@ export type FishingSpotProps = {
   editedBy?: string;
   editDate?: string;
   isLeaseEnd?: boolean;
+  surfaceArea: number | null;
+  type: string;
 };
 
 export type FishingSpotRequest = {

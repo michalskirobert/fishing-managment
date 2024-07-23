@@ -7,7 +7,8 @@ import { OptionProps } from "@src/utils/types";
 export const generateForm = <T extends FieldValues>(
   control: Control<T>,
   districtOptions?: OptionProps[],
-  clubOptions?: OptionProps[]
+  clubOptions?: OptionProps[],
+  spotTypeOptions?: OptionProps[]
 ): FieldProps<T>[][] => [
   [
     {
@@ -16,7 +17,6 @@ export const generateForm = <T extends FieldValues>(
       tooltip: "Kod łowiska",
       inputProps: {
         label: "Kod",
-        type: "number",
         name: "code",
         variant: "outlined",
         color: "primary",
@@ -30,6 +30,31 @@ export const generateForm = <T extends FieldValues>(
       inputProps: {
         label: "Nazwa",
         name: "name",
+        variant: "outlined",
+        color: "primary",
+        required: true,
+      },
+    },
+    {
+      control,
+      controlType: "input",
+      tooltip: "Powierzchnia podana w ha",
+      inputProps: {
+        label: "Powierzchnia",
+        type: "number",
+        name: "surfaceArea",
+        variant: "outlined",
+        color: "primary",
+        required: true,
+      },
+    },
+    {
+      control,
+      controlType: "select",
+      options: spotTypeOptions || [],
+      selectProps: {
+        label: "Typ łowiska",
+        name: "type",
         variant: "outlined",
         color: "primary",
         required: true,
@@ -99,14 +124,6 @@ export const generateForm = <T extends FieldValues>(
     {
       control,
       controlType: "switch",
-      label: "Złów i wypuść",
-      switchProps: {
-        name: "isNoKill",
-      },
-    },
-    {
-      control,
-      controlType: "switch",
       label: "Zakończono współpracę",
       switchProps: {
         name: "isLeaseEnd",
@@ -135,4 +152,8 @@ export const defaultValues: FishingSpotProps = {
   isLeaseEnd: false,
   leaseFrom: null,
   leaseUntil: null,
+  surfaceArea: null,
+  type: "",
+  editDate: "",
+  editedBy: "",
 };

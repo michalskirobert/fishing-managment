@@ -16,7 +16,10 @@ import {
   useGetFishingSpotQuery,
   useUpdateFishingSpotMutation,
 } from "@src/api/service/fishing-spots";
-import { useGetDistrictsQuery } from "@src/api/service/dictionaries";
+import {
+  useGetDistrictsQuery,
+  useGetSpotTypesQuery,
+} from "@src/api/service/dictionaries";
 import { OptionProps } from "@src/utils/types";
 
 export const UseSpotService = () => {
@@ -25,16 +28,15 @@ export const UseSpotService = () => {
 
   const [districtOptions, setDistrictOptions] = useState<OptionProps[]>([]);
   const [clubOptions, setClubOptions] = useState<OptionProps[]>([]);
+  const [spotTypeOptions, setSpotTypeOptions] = useState<OptionProps[]>([]);
 
   const router = useRouter();
 
-  const { reset, control, handleSubmit, formState } = useForm<FishingSpotProps>(
-    {
-      mode: "all",
-      defaultValues,
-      resolver: yupResolver(validationSchema),
-    }
-  );
+  const { reset, control, handleSubmit } = useForm<FishingSpotProps>({
+    mode: "all",
+    defaultValues,
+    resolver: yupResolver(validationSchema),
+  });
 
   const { data, isFetching, isSuccess } = useGetFishingSpotQuery(
     { district, id: `${id}` },
@@ -47,16 +49,16 @@ export const UseSpotService = () => {
     isSuccess: isDistrictsSuccess,
   } = useGetDistrictsQuery();
 
+  const {
+    data: spotTypes,
+    isFetching: isSpotTypesFetching,
+    isSuccess: isSpotTypesSuccess,
+  } = useGetSpotTypesQuery();
+
   const [create, { isLoading: isCreating }] = useCreateFishingSpotMutation();
   const [update, { isLoading: isUpdating }] = useUpdateFishingSpotMutation();
 
   const onSave = async (data: FishingSpotProps) => {
-    if (!formState?.isDirty) {
-      router.push("/spots");
-
-      return;
-    }
-
     if (id) {
       const body: FishingSpotProps = {
         ...data,
@@ -78,7 +80,6 @@ export const UseSpotService = () => {
         addedDate: new Date().toLocaleDateString(),
         author: email,
       };
-
       create(body)
         .unwrap()
         .then(({ name, code }) => {
@@ -141,12 +142,26 @@ export const UseSpotService = () => {
           ?.clubs?.map(({ name }) => ({ label: name, value: name })) || []
       );
     }
-  }, [districts, district]);
+  }, [districts, district, isDistrictsSuccess]);
+
+  useEffect(() => {
+    if (isSpotTypesSuccess) {
+      console.log(spotTypes);
+      setSpotTypeOptions(
+        spotTypes.map(({ name }) => ({ label: name, value: name }))
+      );
+    }
+  }, [spotTypes, isSpotTypesSuccess]);
 
   return {
     buttons,
     onSave,
-    isLoading: isUpdating || isCreating || isDistrictListFetching || isFetching,
+    isLoading:
+      isUpdating ||
+      isCreating ||
+      isDistrictListFetching ||
+      isFetching ||
+      isSpotTypesFetching,
     id,
     data,
     district,
@@ -154,6 +169,7 @@ export const UseSpotService = () => {
     handleSubmit,
     districtOptions,
     clubOptions,
+    spotTypeOptions,
     isDistrictListFetching,
   };
 };

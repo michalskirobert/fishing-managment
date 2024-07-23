@@ -4,7 +4,13 @@ export type ClubProps = {
 };
 
 export type DistrictProps = {
+  _id: string;
   name: string;
   keyName: string;
   clubs: ClubProps[];
+};
+
+export type SpotTypeProps = {
+  _id: string;
+  name: string;
 };

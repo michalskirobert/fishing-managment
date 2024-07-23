@@ -12,4 +12,6 @@ export const validationSchema = yup.object().shape({
     lng: yup.number().required(fieldMessages.required),
   }),
   code: yup.string().required(fieldMessages.required),
+  surfaceArea: yup.number().required(fieldMessages.required).nullable(),
+  type: yup.string().required(fieldMessages.required),
 });
