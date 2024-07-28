@@ -1,54 +1,84 @@
-import { GridLocaleText } from "@mui/x-data-grid";
+import { addMinutes, format } from "date-fns";
+import dxDataGrid from "devextreme/ui/data_grid";
+import { GroupOperation } from "devextreme/ui/filter_builder";
 
-export const localeText: Partial<GridLocaleText> = {
-  toolbarExport: "Pobierz",
-  toolbarExportPrint: "Wydrukuj",
-  toolbarExportCSV: "Pobierz plik CSV",
-  toolbarDensity: "Gęstość",
-  toolbarDensityStandard: "Standard",
-  toolbarDensityComfortable: "Komfort",
-  toolbarDensityCompact: "Kompakt",
-  toolbarFilters: "Filtry",
-  toolbarFiltersLabel: "Filtry",
-  toolbarColumns: "Kolumny",
-  toolbarColumnsLabel: "Kolumny",
-  filterPanelColumns: "Kolumna",
-  filterPanelOperator: "Operator",
-  filterPanelAddFilter: "Dodaj filtr",
-  filterPanelInputLabel: "Wartość",
-  filterPanelInputPlaceholder: "Filtruj wartość",
-  footerTotalRows: "Suma wierszów",
-  noRowsLabel: "Brak danych",
-  booleanCellFalseLabel: "Nie",
-  booleanCellTrueLabel: "Tak",
-  "filterOperator!=": "różne od",
-  filterOperatorAfter: "po",
-  filterOperatorBefore: "przed",
-  filterOperatorContains: "zawiera",
-  filterOperatorEndsWith: "kończy się na",
-  filterOperatorEquals: "równe",
-  filterOperatorIs: "jest",
-  filterOperatorIsAnyOf: "jest jednym z",
-  filterOperatorIsEmpty: "jest pusty",
-  filterOperatorIsNotEmpty: "nie jest pusty",
-  filterOperatorNot: "nie",
-  filterOperatorOnOrAfter: "w dniu lub po",
-  filterOperatorOnOrBefore: "w dniu lub przed",
-  "filterOperator<": "mniejsze niż",
-  "filterOperator<=": "mniejsze lub równe",
-  "filterOperator=": "równe",
-  filterOperatorStartsWith: "zaczyna się na",
-  "filterOperator>": "większe niż",
-  "filterOperator>=": "większe lub równe",
-  filterPanelOperatorAnd: "oraz",
-  filterPanelOperatorOr: "lub",
-  footerRowSelected: (count) =>
-    count !== 1
-      ? `${count.toLocaleString()} wiersze zaznaczone`
-      : `${count.toLocaleString()} wiersz zaznaczony`,
-  MuiTablePagination: {
-    labelRowsPerPage: "Wiersze na stronę:",
-    labelDisplayedRows: ({ from, to, count }) =>
-      `${from}–${to} z ${count !== -1 ? count : `ponad ${to}`}`,
-  },
+export const defaultFilterOperations: string[] = [
+  "contains",
+  "notcontains",
+  "startswith",
+  "endswith",
+  "=",
+  "<>",
+];
+
+export const defaultGroupOperations: GroupOperation[] = ["and", "or"];
+
+export const operations: Record<string, string> = {
+  "=": "equal",
+  "<>": "notEqual",
+  "<": "lessThan",
+  "<=": "lessThanOrEqual",
+  ">": "greaterThan",
+  ">=": "greaterThanOrEqual",
+  contains: "contains",
+  between: "between",
+  startswith: "startsWith",
+  endswith: "endsWith",
+  notcontains: "notContains",
 };
+
+//problem with devextreme types
+export const calculateDateTimeFilterExpression = (filterValue: any): any => {
+  return [
+    [
+      "sourceModifiedDate",
+      ">=",
+      format(filterValue, `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`),
+    ],
+    "and",
+    [
+      "sourceModifiedDate",
+      "<",
+      format(
+        addMinutes(new Date(filterValue), 1),
+        `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`
+      ),
+    ],
+  ];
+};
+
+type TTypeOfTableParam = "skip" | "take" | "filter" | "sort";
+
+export const tableParamsList: TTypeOfTableParam[] = [
+  "skip",
+  "take",
+  "filter",
+  "sort",
+];
+
+export const clearFilters = <T>(
+  referance: dxDataGrid<T, number> | undefined
+) => {
+  if (!referance) return;
+
+  const { clearFilter, clearGrouping, clearSelection, clearSorting } =
+    referance;
+
+  clearFilter();
+  clearGrouping();
+  clearSelection();
+  clearSorting();
+};
+
+export const filterOptions = Object.freeze({
+  filterPlaceholder: "Filtruj...",
+  contains: "Zawiera",
+  notContains: "Nie zawiera",
+  startsWith: '"Zaczyna się od',
+  endsWith: "Kończy się na",
+  equal: "Równa się",
+  notEqual: "Nie równa się",
+  date: "Dnia",
+  lessThan: "Mniejsze",
+  greaterThanOrEqual: "Większe lub równe",
+});

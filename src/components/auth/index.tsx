@@ -9,6 +9,9 @@ import { VerifyTokenPage } from "./pages/token-page";
 import { clearUser } from "@src/redux/reducers/auth";
 import { setPreviousPage } from "@src/redux/reducers/history";
 
+import axios from "axios";
+import { processApiUrl } from "@src/api/utils";
+
 interface AuthProviderProps {
   children: React.ReactNode;
 }
@@ -16,6 +19,11 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const userData = useAppSelector(({ user }) => user);
   const router = useRouter();
+
+  axios.defaults.baseURL = processApiUrl();
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${userData.accessToken}`;
 
   const dispatch = useAppDispatch();
 

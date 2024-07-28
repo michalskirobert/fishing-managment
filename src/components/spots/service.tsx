@@ -4,9 +4,10 @@ import {
   Refresh,
   Delete,
   DisplaySettings,
+  Remove,
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 import { FishingSpotProps } from "@api/service/fishing-spots/types";
@@ -15,12 +16,18 @@ import {
   useRemoveFishingSpotMutation,
 } from "@api/service/fishing-spots";
 import { TButtonConfig } from "@shared/detail-buttons";
+import {
+  OptionChangedEvent,
+  SelectionChangedEvent,
+} from "devextreme/ui/data_grid";
+import { processFiltersToArr, TTableFilter } from "@src/shared/table/helpers";
+import { DataGrid } from "devextreme-react";
+import { clearFilters } from "@src/shared/table/utils";
 
 export const UseSpotsService = () => {
   const [selectedRow, setSelectedRow] = useState<FishingSpotProps | null>(null);
-  const { data, isFetching, refetch } = useGetFishingSpotsListQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+
+  const dataGridRef = useRef<DataGrid<FishingSpotProps, number>>(null);
 
   const [remove, { isLoading: isRemoving }] = useRemoveFishingSpotMutation();
 
@@ -34,6 +41,28 @@ export const UseSpotsService = () => {
 
   const router = useRouter();
 
+  const [filters, setFilters] = useState<TTableFilter[]>([]);
+
+  const onOptionChanged = (e: OptionChangedEvent<FishingSpotProps>) => {
+    if (e.fullName.includes("filterValue")) {
+      const combinedFilter = e.component.getCombinedFilter();
+      const updatedFilters = processFiltersToArr(combinedFilter);
+
+      setFilters(updatedFilters);
+    }
+  };
+
+  const onSelectionChanged = useCallback(
+    (e: SelectionChangedEvent<FishingSpotProps>) => {
+      if (e.selectedRowsData.length > 0) {
+        setSelectedRow(e.selectedRowsData[0]);
+      } else {
+        setSelectedRow(null);
+      }
+    },
+    []
+  );
+
   const removeFishingSpot = async () => {
     const { district, _id } = selectedRow || {};
 
@@ -42,7 +71,6 @@ export const UseSpotsService = () => {
     remove({ district: district?.toLowerCase(), id: _id })
       .unwrap()
       .then(() => {
-        refetch();
         toggleWarningModal();
         toast.success("Pomyślnie usunięto łowisko");
       });
@@ -86,7 +114,7 @@ export const UseSpotsService = () => {
         buttonProps: {
           color: "info",
           startIcon: <Refresh />,
-          onClick: refetch,
+          onClick: () => dataGridRef.current?.instance.refresh(),
           variant: "contained",
         },
       },
@@ -101,6 +129,19 @@ export const UseSpotsService = () => {
           disabled: !selectedRow?._id,
           variant: "contained",
           onClick: toggleWarningModal,
+        },
+      },
+      {
+        content: "Wyczyść filtry",
+        tooltipContent: !filters?.length
+          ? "Brak ustawionych filtrów"
+          : "Zostaną usunięte wszystkie bieżące filtry oraz zaznaczenia",
+        buttonProps: {
+          color: "secondary",
+          startIcon: <Remove />,
+          onClick: () => clearFilters(dataGridRef.current?.instance),
+          disabled: !filters.length,
+          variant: "contained",
         },
       },
     ],
@@ -119,8 +160,7 @@ export const UseSpotsService = () => {
   ];
 
   return {
-    data,
-    isLoading: isRemoving || isFetching,
+    isLoading: isRemoving,
     buttons,
     isOpenDistrictModal,
     toggleDistrictModal,
@@ -130,5 +170,8 @@ export const UseSpotsService = () => {
     selectedRow,
     removeFishingSpot,
     isRemoving,
+    onOptionChanged,
+    onSelectionChanged,
+    dataGridRef,
   };
 };

@@ -1,66 +1,101 @@
-import { GridColDef } from "@mui/x-data-grid";
+import { BooleanProvider } from "@src/shared/table/providers/boolean";
+import { IColumnProps } from "devextreme-react/cjs/data-grid";
 
-import { FishingSpotProps } from "@api/service/fishing-spots/types";
+import { createRoot } from "react-dom/client";
 
-export const columns: GridColDef<FishingSpotProps[][number]>[] = [
-  { field: "code", headerName: "Kod", filterable: true, flex: 1 },
+export const columns: IColumnProps[] = [
   {
-    field: "name",
-    headerName: "Nazwa",
-    filterable: true,
-    flex: 1,
+    dataField: "code",
+    caption: "Kod",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "district",
-    headerName: "Okręg",
-    filterable: true,
-    flex: 1,
+    dataField: "name",
+    caption: "Nazwa",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "club",
-    headerName: "Koło",
-    filterable: true,
-    flex: 1,
+    dataField: "district",
+    caption: "Okręg",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "addedDate",
-    headerName: "Data dodania",
-    filterable: true,
+    dataField: "club",
+    caption: "Koło",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "leaseFrom",
-    headerName: "Data dzierżawy od",
-    filterable: true,
-    flex: 1,
+    dataField: "addedDate",
+    caption: "Data dodania",
+    allowSorting: true,
+    dataType: "date",
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "leaseTo",
-    headerName: "Data dzierżawy do",
-    filterable: true,
-    flex: 1,
+    dataField: "leaseFrom",
+    caption: "Data dzierżawy od",
+    allowSorting: true,
+    dataType: "date",
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "surfaceArea",
-    headerName: "Powierzchnia (ha)",
-    filterable: true,
-    flex: 1,
+    dataField: "leaseTo",
+    caption: "Data dzierżawy do",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "type",
-    headerName: "Typ łowiska",
-    filterable: true,
-    flex: 1,
+    dataField: "surfaceArea",
+    caption: "Powierzchnia (ha)",
+    dataType: "number",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "isNoKill",
-    headerName: "Złów i wypuść",
-    type: "boolean",
-    filterable: true,
+    dataField: "type",
+    caption: "Typ łowiska",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
   },
   {
-    field: "isLeaseEnd",
-    headerName: "Zakończone",
-    type: "boolean",
-    filterable: true,
+    dataField: "isNoKill",
+    caption: "Złów i wypuść",
+    dataType: "boolean",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
+    cellTemplate: (container, options) => {
+      const root = createRoot(container);
+      root.render(
+        <BooleanProvider {...{ container, value: options.data?.isNoKill }} />
+      );
+    },
+  },
+  {
+    dataField: "isLeaseEnd",
+    caption: "Zakończone",
+    dataType: "boolean",
+    allowSorting: true,
+    visible: true,
+    allowHeaderFiltering: false,
+    cellTemplate: (container, options) => {
+      const root = createRoot(container);
+      root.render(
+        <BooleanProvider {...{ container, value: options.data?.isLeaseEnd }} />
+      );
+    },
   },
 ];

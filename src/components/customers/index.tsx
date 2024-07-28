@@ -1,15 +1,16 @@
 "use client";
 
+import { Table } from "@src/shared/table";
+
 import { ButtonGroup } from "@mui/material";
 
 import { DetailButton } from "@shared/detail-buttons";
 import { PageContent } from "@shared/page-content";
-import { Table } from "@shared/table";
 import { UseCustomersService } from "./service";
 import { columns } from "./utils";
 
 export default function Customers() {
-  const { buttons, setSelectedRow } = UseCustomersService();
+  const { buttons } = UseCustomersService();
 
   return (
     <PageContent
@@ -24,19 +25,22 @@ export default function Customers() {
         </ButtonGroup>
         <Table
           {...{
-            data: [],
+            tableProps: {
+              dataSource: [],
+              remoteOperations: true,
+              filterRow: { visible: true },
+              headerFilter: { visible: true },
+              selection: {
+                mode: "single",
+              },
+              columnResizingMode: "nextColumn",
+              allowColumnResizing: true,
+            },
             columns,
-            loading: false,
-            sortModel: [
-              { field: "fullname", sort: "desc" },
-              { field: "addedDate", sort: "desc" },
-            ],
-            rowSelection: true,
-            onRowSelectionModelChange: (row, Grid) =>
-              setSelectedRow(Grid.api.getRow(row[0])),
+            isFilterRow: true,
+            isHeaderFilter: true,
           }}
         />
-        {/* <AreaModal {...{ open: openAreaModal, toggle: toggleAreaModal }} /> */}
       </>
     </PageContent>
   );

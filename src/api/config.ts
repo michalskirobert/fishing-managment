@@ -8,9 +8,8 @@ import {
 
 import qs from "qs";
 
-import { API_URL } from "./utils";
-
 import { RootState } from "@redux/store";
+import { processApiUrl } from "./utils";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: "",
@@ -37,7 +36,7 @@ const handleTokenExpired = (
 
 export const baseQuery = () =>
   fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: processApiUrl(),
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
       const token = state.user.accessToken;
@@ -71,10 +70,10 @@ const dynamicBaseQuery: BaseQueryFn<
 
   const adjustedArgs =
     typeof args === "string"
-      ? { url: `${API_URL}/${args}`, headers }
+      ? { url: `${processApiUrl()}/${args}`, headers }
       : {
           ...args,
-          url: `${API_URL}/${args.url}`,
+          url: `${processApiUrl()}/${args.url}`,
           headers,
         };
 
@@ -92,10 +91,10 @@ const authBaseQuery: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   const adjustedArgs =
     typeof args === "string"
-      ? { url: `${API_URL}/${args}` }
+      ? { url: `${processApiUrl()}/${args}` }
       : {
           ...args,
-          url: `${API_URL}/${args.url}`,
+          url: `${processApiUrl()}/${args.url}`,
         };
 
   const result = await rawBaseQuery(adjustedArgs, api, extraOptions);

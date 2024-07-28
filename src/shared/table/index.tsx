@@ -1,41 +1,76 @@
-import * as React from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "devextreme-react";
+import { ComponentType } from "react";
 
-import { localeText } from "./utils";
-import { TableProps } from "./types";
-import { CustomNoRowsOverlay } from "./components/custom-no-rows-overlay";
-import LoadingIcon from "./components/custom-loader";
-import { BooleanProvider } from "./providers/boolean";
+import {
+  Column,
+  FilterPanel,
+  FilterRow,
+  HeaderFilter,
+  IColumnProps,
+  IDataGridOptions,
+  ISelectionProps,
+  MasterDetail,
+  Scrolling,
+  Selection,
+} from "devextreme-react/data-grid";
 
-export const Table = <T,>({
-  containerHeight,
-  containerWidth,
-  data,
-  ...dataGrid
-}: TableProps<T>) => {
+import plMessages from "@utils/pl.json";
+import { loadMessages, locale } from "devextreme/localization";
+
+type TTableProps = {
+  isFilterRow?: boolean;
+  isFilterPanel?: boolean;
+  isHeaderFilter?: boolean;
+  isScrolling?: boolean;
+  columns?: IColumnProps[];
+  tableProps: IDataGridOptions;
+  isMasterDetailEnabled?: boolean;
+  masterDetailComponent?: ComponentType<any>;
+  dataGridRef?: React.RefObject<DataGrid<any, number>>;
+  isSelection?: boolean;
+  selectionProps?: ISelectionProps;
+};
+
+export const Table = ({
+  isFilterRow = false,
+  isFilterPanel = false,
+  isHeaderFilter = false,
+  isScrolling = true,
+  columns = [],
+  tableProps = {},
+  isMasterDetailEnabled,
+  masterDetailComponent,
+  dataGridRef,
+  isSelection,
+  selectionProps,
+}: TTableProps) => {
+  loadMessages(plMessages);
+  locale("pl");
+
   return (
-    <div
-      style={{
-        height: containerHeight || 400,
-        width: containerWidth || "100%",
+    <DataGrid
+      {...{
+        ref: dataGridRef,
+        showBorders: true,
+        showColumnHeaders: true,
+        showRowLines: true,
+        height: 600,
+        noDataText: "Brak danych",
+        ...tableProps,
       }}
     >
-      <DataGrid
-        {...{
-          ...dataGrid,
-          rows: data,
-          filterMode: "server",
-          getRowId: (row) => row._id,
-          slots: {
-            toolbar: GridToolbar,
-            noRowsOverlay: CustomNoRowsOverlay,
-            loadingOverlay: LoadingIcon,
-            booleanCellFalseIcon: () => <BooleanProvider value={false} />,
-            booleanCellTrueIcon: () => <BooleanProvider value={true} />,
-          },
-          localeText,
-        }}
+      <HeaderFilter visible={isHeaderFilter} />
+      <FilterRow visible={isFilterRow} />
+      <FilterPanel visible={isFilterPanel} />
+      {columns.map((column) => (
+        <Column key={column.dataField} {...column} />
+      ))}
+      <MasterDetail
+        enabled={isMasterDetailEnabled}
+        component={masterDetailComponent}
       />
-    </div>
+      {isScrolling && <Scrolling mode="virtual" />}
+      {isSelection ? <Selection {...selectionProps} /> : null}
+    </DataGrid>
   );
 };

@@ -1,7 +1,15 @@
-export const API_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3001"
-    : `https://fishing-app-api.onrender.com`;
+export const processApiUrl = () => {
+  if (typeof window !== "undefined") {
+    const hostname = location.hostname.split(".")[0];
+    const domain = location.hostname.split(".").slice(1).join(".");
+
+    return process.env.NODE_ENV === "development"
+      ? "http://localhost:3001"
+      : `https://${hostname}-api.${domain}`;
+  } else {
+    return "";
+  }
+};
 
 export const INSTANCES_URLS = {
   fishingSpots: "api/fishing-spots",
@@ -9,7 +17,7 @@ export const INSTANCES_URLS = {
   dictionaries: "api/dictionaries",
 } as const;
 
-export type DataList<T> = {
+export type TableDataProps<T> = {
   items: T[];
   totalItems: number;
 };

@@ -8,6 +8,7 @@ import AuthProvider from "@components/auth";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
+import "devextreme/dist/css/dx.softblue.css";
 
 import "./globals.css";
 
