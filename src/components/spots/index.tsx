@@ -13,9 +13,10 @@ import CustomStore from "devextreme/data/custom_store";
 import { getTableParams } from "@src/shared/table/helpers";
 import { tableParamsList } from "@src/shared/table/utils";
 import { fetchData } from "@src/shared/table/methods/fetch";
-import { INSTANCES_URLS, TableDataProps } from "@src/api/utils";
+import { INSTANCES_URLS } from "@src/api/utils";
 import { FishingSpotProps } from "@src/api/service/fishing-spots/types";
 import { TStoreData } from "@src/shared/table/types";
+import { TableDataProps } from "@src/api/types";
 
 export default function Spots() {
   const {

@@ -11,10 +11,7 @@ import { useCallback, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 import { FishingSpotProps } from "@api/service/fishing-spots/types";
-import {
-  useGetFishingSpotsListQuery,
-  useRemoveFishingSpotMutation,
-} from "@api/service/fishing-spots";
+import { useRemoveFishingSpotMutation } from "@api/service/fishing-spots";
 import { TButtonConfig } from "@shared/detail-buttons";
 import {
   OptionChangedEvent,

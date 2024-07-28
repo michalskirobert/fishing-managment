@@ -16,8 +16,3 @@ export const INSTANCES_URLS = {
   auth: "api/authentication",
   dictionaries: "api/dictionaries",
 } as const;
-
-export type TableDataProps<T> = {
-  items: T[];
-  totalItems: number;
-};

@@ -1,14 +1,15 @@
 import { FishingSpotProps, FishingSpotRequest } from "./types";
 
 import { apiSlice } from "@api/config";
-import { DataList, INSTANCES_URLS } from "@api/utils";
+import { INSTANCES_URLS } from "@api/utils";
+import { TableDataProps } from "@src/api/types";
 import { displayErrorMessage } from "@utils/functions/display-error-message";
 
 const baseUrl = INSTANCES_URLS.fishingSpots;
 
 export const fishingSpotsApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getFishingSpotsList: build.query<DataList<FishingSpotProps>, void>({
+    getFishingSpotsList: build.query<TableDataProps<FishingSpotProps>, void>({
       query: () => ({
         url: baseUrl,
       }),
