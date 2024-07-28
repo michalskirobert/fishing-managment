@@ -62,7 +62,7 @@ export const UseSpotService = () => {
     if (id) {
       const body: FishingSpotProps = {
         ...data,
-        editDate: new Date().toLocaleDateString(),
+        editDate: new Date().toISOString(),
         editedBy: email,
       };
 
@@ -77,7 +77,7 @@ export const UseSpotService = () => {
     } else {
       const body: FishingSpotProps = {
         ...data,
-        addedDate: new Date().toLocaleDateString(),
+        addedDate: new Date().toISOString(),
         author: email,
       };
       create(body)

@@ -41,6 +41,14 @@ export const columns: IColumnProps[] = [
     allowHeaderFiltering: false,
   },
   {
+    dataField: "editDate",
+    caption: "Data edycji",
+    allowSorting: true,
+    dataType: "date",
+    visible: true,
+    allowHeaderFiltering: false,
+  },
+  {
     dataField: "leaseFrom",
     caption: "Data dzierżawy od",
     allowSorting: true,
@@ -51,6 +59,7 @@ export const columns: IColumnProps[] = [
   {
     dataField: "leaseTo",
     caption: "Data dzierżawy do",
+    dataType: "date",
     allowSorting: true,
     visible: true,
     allowHeaderFiltering: false,

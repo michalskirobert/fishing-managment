@@ -41,7 +41,10 @@ export default function Spots() {
           const tableParams = getTableParams({
             loadOptions: {
               ...loadOptions,
-              sort: loadOptions.sort || [{ selector: "name", desc: true }],
+              sort: loadOptions.sort || [
+                { selector: "addedDate", desc: true },
+                { selector: "district", desc: true },
+              ],
             },
             paramsList: tableParamsList,
           });
