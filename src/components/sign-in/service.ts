@@ -8,6 +8,7 @@ import { SignInFormProps } from "./types";
 import { useAppDispatch, useAppSelector } from "@redux/store";
 import { setUser } from "@redux/reducers/auth";
 import { useSignInMutation } from "@api/service/auth";
+import { ProfileId } from "@src/redux/reducers/auth/types";
 
 export const useSignInService = () => {
   const { previousPage } = useAppSelector(({ history }) => history);

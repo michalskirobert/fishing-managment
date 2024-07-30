@@ -86,7 +86,7 @@ export const columns: IColumnProps[] = [
     allowSorting: true,
     visible: true,
     allowHeaderFiltering: false,
-    cellTemplate: (container, options) => {
+    cellTemplate: (container: HTMLElement, options) => {
       const root = createRoot(container);
       root.render(
         <BooleanProvider {...{ container, value: options.data?.isNoKill }} />
@@ -100,7 +100,7 @@ export const columns: IColumnProps[] = [
     allowSorting: true,
     visible: true,
     allowHeaderFiltering: false,
-    cellTemplate: (container, options) => {
+    cellTemplate: (container: HTMLElement, options) => {
       const root = createRoot(container);
       root.render(
         <BooleanProvider {...{ container, value: options.data?.isLeaseEnd }} />

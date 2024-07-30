@@ -10,7 +10,10 @@ export type DistrictProps = {
   clubs: ClubProps[];
 };
 
-export type SpotTypeProps = {
+export type DictionaryProps = {
   _id: string;
   name: string;
+  createdDate: Date | null;
+  language: "pl" | "en" | "uk" | "rus";
+  isActive: boolean;
 };

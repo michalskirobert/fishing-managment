@@ -1,4 +1,4 @@
-import { SignInProps } from "./types";
+import { SignInProps, TokenProps } from "./types";
 
 import { authSlice } from "@api/config";
 import { INSTANCES_URLS } from "@api/utils";
@@ -19,7 +19,7 @@ export const authApi = authSlice.injectEndpoints({
         displayErrorMessage(error);
       },
     }),
-    token: build.mutation<string, { token: string }>({
+    token: build.mutation<TokenProps, { token: string }>({
       query: (body) => ({
         url: `${baseUrl}/token`,
         method: "post",

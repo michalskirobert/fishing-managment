@@ -10,6 +10,7 @@ import qs from "qs";
 
 import { RootState } from "@redux/store";
 import { processApiUrl } from "./utils";
+import { clearUser } from "@src/redux/reducers/auth";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: "",
@@ -34,28 +35,27 @@ const handleTokenExpired = (
   }
 };
 
-export const baseQuery = () =>
-  fetchBaseQuery({
-    baseUrl: processApiUrl(),
-    prepareHeaders: (headers, { getState }) => {
-      const state = getState() as RootState;
-      const token = state.user.accessToken;
+export const baseQuery = fetchBaseQuery({
+  baseUrl: processApiUrl(),
+  prepareHeaders: (headers, { getState }) => {
+    const state = getState() as RootState;
 
-      headers.set("authorization", `Bearer  ${token}`);
-      headers.set("content-type", "application/json");
-
-      return headers;
-    },
-  });
+    const token = state.auth.accessToken;
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
+    headers.set("content-type", "application/json");
+    return headers;
+  },
+});
 
 const dynamicBaseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+> = async (args: string | FetchArgs, api, extraOptions) => {
   const state = api.getState() as RootState;
-
-  const accessToken = state.user.accessToken;
+  const accessToken = state.auth.accessToken;
 
   if (!accessToken) {
     return {
@@ -63,23 +63,30 @@ const dynamicBaseQuery: BaseQueryFn<
     };
   }
 
-  const headers = {
-    accept: "*/*",
-    authorization: `Bearer ${accessToken}`,
-  };
-
+  // Determine whether args is a string or an object and handle accordingly
   const adjustedArgs =
     typeof args === "string"
-      ? { url: `${processApiUrl()}/${args}`, headers }
+      ? {
+          url: `${processApiUrl()}/${args}`,
+          headers: { authorization: `Bearer ${accessToken}` },
+        }
       : {
           ...args,
           url: `${processApiUrl()}/${args.url}`,
-          headers,
+          headers: {
+            ...args.headers,
+            authorization: `Bearer ${accessToken}`,
+          },
         };
 
+  // Perform the API request using the adjusted arguments
   const result = await rawBaseQuery(adjustedArgs, api, extraOptions);
 
-  handleTokenExpired(result.error?.status);
+  // Handle token expiration
+  if (result.error?.status === 401) {
+    api.dispatch(clearUser());
+    window.location.href = "/sign-in";
+  }
 
   return result;
 };

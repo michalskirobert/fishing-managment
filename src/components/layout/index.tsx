@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 export const Theme = ({ children }: { children: React.ReactNode }) => {
   const defaultTheme = createTheme();
 
-  const { isLogin } = useAppSelector(({ user }) => user);
+  const { isLogin } = useAppSelector(({ auth }) => auth);
 
   const pathname = usePathname();
 

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { UserDataProps } from "./types";
+import { ProfileId, UserDataProps } from "./types";
+import { TokenProps } from "@src/api/service/auth/types";
+import { toast } from "react-toastify";
 
 const initialState: UserDataProps = {
   _id: "",
@@ -12,21 +13,30 @@ const initialState: UserDataProps = {
   lastVisitedDate: "",
   accessToken: null,
   isLogin: false,
+  showMessage: false,
+  profileId: ProfileId.Anonymous,
+  registries: [],
 };
 
 export const userSlice = createSlice({
-  name: "oidc",
+  name: "auth",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserDataProps | undefined>) => {
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, isLogin: !!action.payload };
     },
-    setToken: (state, action: PayloadAction<string | null>) => {
-      state.accessToken = action.payload;
+    setToken: (state, action: PayloadAction<TokenProps | null>) => {
+      if (!action.payload?.token) {
+        toast.error("Token nie został przekazany, zaraz nastąpi wylogowanie");
+
+        location.href = "/sign-out";
+        return;
+      }
+
+      state.accessToken = action.payload.token;
+      state.showMessage = !!action.payload?.showMessage;
     },
-    clearUser: () => {
-      return initialState;
-    },
+    clearUser: () => initialState,
   },
 });
 
